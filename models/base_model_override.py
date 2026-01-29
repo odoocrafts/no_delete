@@ -18,6 +18,13 @@ class BaseModel(models.AbstractModel):
         # Allow deletion for Line models (e.g. sale.order.line, account.move.line)
         if self._name.endswith('.line'):
             return super().unlink()
+
+        # Check for manual override in ir.model
+        # We use sudo() because normal users might not have read access to ir.model configuration
+        # but we need to check if the administrator allowed it.
+        ir_model = self.env['ir.model'].sudo().search([('model', '=', self._name)], limit=1)
+        if ir_model and ir_model.allow_deletion:
+            return super().unlink()
             
         # Allow deletion for Superuser (System processes)
         # This prevents breaking internal system cleanup jobs.

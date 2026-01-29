@@ -12,7 +12,9 @@
     """,
     'author': 'Antigravity',
     'depends': ['base'],
-    'data': [],
+    'data': [
+        'views/ir_model_view.xml',
+    ],
     'installable': True,
     'application': False,
     'license': 'LGPL-3',
