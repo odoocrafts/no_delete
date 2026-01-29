@@ -14,6 +14,10 @@ class BaseModel(models.AbstractModel):
         # Allow deletion for TransientModels (wizards)
         if self._transient:
             return super().unlink()
+
+        # Allow deletion for Line models (e.g. sale.order.line, account.move.line)
+        if self._name.endswith('.line'):
+            return super().unlink()
             
         # Allow deletion for Superuser (System processes)
         # This prevents breaking internal system cleanup jobs.
