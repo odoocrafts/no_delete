@@ -16,7 +16,7 @@ class BaseModel(models.AbstractModel):
             return super().unlink()
 
         # Allow deletion for Line models (e.g. sale.order.line, account.move.line)
-        if self._name.endswith('.line'):
+        if self._name.endswith('.line') or self._name.endswith('.revision.history'):
             return super().unlink()
 
         # Check for manual override in ir.model
